@@ -1,6 +1,19 @@
-if login credentails are wrong, then show message to indicate that so.
 
-like in BooksSearchViewModel isLoading is MutableState , try same in loadingStateViewModel
 
-ppo -> book.volumeInfo?.imageLinks?.smallThumbnail?.isNullOrEmpty()
-if data is null,then make list empty
+
+Modifications:
+
+1. if someone put wrong login details, app was crashing as exception was thrown.
+2. due to TypeMismatch , app was crashing. like Int or Double.
+3.  Architech. was inproved. like : book.volumeInfo?.imageLinks?.smallThumbnail?.isNullOrEmpty()
+4. if exception was thrown or no result was brought by api, then update list to emptyList() 
+5. produceState promlem was solved
+6. proper use of Firebase database as if it is realtime database.
+
+
+
+Remaining :
+1. if login credentails are wrong, then show message to indicate that so.
+2. if during Create Account, wrong details were entered, then show warning.
+3.  when ever some exception is thrown, show Toast Message regarding the error.
+4. bring data of user only, in app, whole data was brought ,then according to user, data was filtered. improve this.
