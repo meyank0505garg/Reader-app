@@ -52,7 +52,7 @@ fun ReaderSplashScreen(navController: NavController ) {
 //            navController.navigate(ReaderScreens.SearchScreen.name)
         }
 
-//        navController.navigate(ReaderScreens.LoginScreen.name)
+//        navController.navigate(ReaderScreens.SearchScreen.name)
 
     }
     Surface(modifier = Modifier

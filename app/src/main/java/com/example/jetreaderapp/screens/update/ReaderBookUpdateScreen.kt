@@ -1,5 +1,6 @@
 package com.example.jetreaderapp.screens.update
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -63,6 +64,7 @@ import com.example.jetreaderapp.utils.formatDate
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookUpdateScreen(navController: NavHostController,
@@ -70,60 +72,75 @@ fun BookUpdateScreen(navController: NavHostController,
                      viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
 
                      ) {
-    Scaffold(topBar = {
-        ReaderAppBar(navController = navController,
-            title = "Update Book",
-            icon = Icons.Default.ArrowBack,
-            showProfile = false,
-            )
-
-    }) {
-        val bookInfo = produceState<DataOrException<List<MBook>,
-                Boolean,
-                Exception>>(initialValue = DataOrException(data = emptyList(),true,Exception(""))){
-            value = viewModel.data.value
-        }.value
-
-        Surface(modifier = Modifier
-            .padding(it)
-            .fillMaxSize()) {
-            Column(modifier = Modifier.padding(top = 3.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-
-                Log.d("Info", "BookUpdateScreen: ${bookItemId} and ${bookInfo}")
-
-                if(bookInfo.loading == true){
-                     LinearProgressIndicator()
-                    bookInfo.loading = false
-                }else{
-//                    Text(text = viewModel.data.value.data?.get(0)?.title.toString())
-                    Surface(modifier = Modifier
-                        .padding(2.dp)
-                        .fillMaxSize(),
-                        shape= CircleShape,
-                        shadowElevation = 4.dp
-                    ) {
-
-                        ShowBookUpdate(bookInfo = viewModel.data.value,bookItemId)
-
-
-                    }
-
-                    ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
-                        mBook.googleBookId == bookItemId
-                    }!!, navController)
-
-
-                }
-
-
-
-            }
-
-        }
-
-    }
+// //   Text(text = bookItemId)
+//    Scaffold(topBar = {
+//        ReaderAppBar(navController = navController,
+//            title = "Update Book",
+//            icon = Icons.Default.ArrowBack,
+//            showProfile = false,
+//            )
+//
+//        }) {
+//
+//        val bookInfo = produceState<DataOrException<List<MBook>,
+//                Boolean,
+//                Exception>>(initialValue = DataOrException(data = emptyList(),true,Exception("PPP"))){
+//            Log.d("Flow-PPOX", "BookUpdateScreen: firstx call ")
+//
+//            value = viewModel.data.value
+//            Log.d("Flow-PPOX", "BookUpdateScreen: secondx call ")
+//        }.value
+//
+//        Log.d("Flow-PPOX", "BookUpdateScreen:\n " +
+//                "data : ${bookInfo.data} \n" +
+//                "loading : ${bookInfo.loading} \n" +
+//                "ex: ${bookInfo.e?.message}"
+//        )
+//
+//
+//
+//
+//
+//        Surface(modifier = Modifier
+//            .padding(it)
+//            .fillMaxSize()) {
+//            Column(modifier = Modifier.padding(top = 3.dp),
+//                verticalArrangement = Arrangement.Top,
+//                horizontalAlignment = Alignment.CenterHorizontally) {
+//
+//                Log.d("Info", "BookUpdateScreen: ${bookItemId} and ${bookInfo}")
+//
+//                if(bookInfo.loading == true){
+//                     LinearProgressIndicator()
+//                    bookInfo.loading = false
+//                }else{
+////                    Text(text = viewModel.data.value.data?.get(0)?.title.toString())
+//                    Surface(modifier = Modifier
+//                        .padding(2.dp)
+//                        .fillMaxSize(),
+//                        shape= CircleShape,
+//                        shadowElevation = 4.dp
+//                    ) {
+//
+////                        ShowBookUpdate(bookInfo = viewModel.data.value,bookItemId)
+//
+//
+//                    }
+//
+////                    ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
+////                        mBook.googleBookId == bookItemId
+////                    }!!, navController)
+//
+//
+//                }
+//
+//
+//
+//            }
+//
+//        }
+//
+//    }
 
 
 

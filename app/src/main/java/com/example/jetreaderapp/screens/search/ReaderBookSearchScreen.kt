@@ -1,5 +1,6 @@
 package com.example.jetreaderapp.screens.search
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import com.example.jetreaderapp.components.InputField
 import com.example.jetreaderapp.components.ReaderAppBar
 import com.example.jetreaderapp.model.Item
 import com.example.jetreaderapp.navigation.ReaderScreens
+import kotlin.math.log
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,8 +60,8 @@ fun SearchScreen(navController: NavController ,
             showProfile = false,
             icon = Icons.Default.ArrowBack
         ){
-            navController.popBackStack()
-//            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+//            navController.popBackStack()
+            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
         }
     }) {
 
@@ -102,7 +104,8 @@ fun BookList(
 
 
     val listofBooks = viewModel.listOfBooks
-
+    Log.d("PPLK", "BookList: ${listofBooks.size}")
+//        var listofBooks : List<Item> = emptyList()
     if(viewModel.isLoading){
         LinearProgressIndicator()
     }else{
@@ -152,14 +155,22 @@ fun BookRow(book: Item, navController: NavController) {
                 .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+//            Log.d("PPLO", "BookRow: ${book.volumeInfo?.imageLinks?.smallThumbnail?.toString()} and id : ${book.id}")
 
-            val imgUrl =  if(book.volumeInfo.imageLinks.smallThumbnail.isNotEmpty()){
-                book.volumeInfo.imageLinks.smallThumbnail
+            val imgUrl =  if(book.volumeInfo?.imageLinks?.smallThumbnail.isNullOrEmpty()){
+//                temporary image
+                "http://books.google.com/books/content?id=Q7vLPAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+
+
 
             }else{
-                ""
+                book.volumeInfo.imageLinks.smallThumbnail.toString()
+
             }
 
+
+
+//
             Image(painter = rememberAsyncImagePainter(model = imgUrl),
                 contentDescription = "Book Image " ,
                 modifier = Modifier
@@ -168,20 +179,16 @@ fun BookRow(book: Item, navController: NavController) {
             )
 
             Column {
+//                Text(text = " id : ${book.id}")
                 Text(
-                    text = book.volumeInfo.title ,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Text(
-                    text = "Authors : ${book.volumeInfo.authors.toString()}",
+                    text = "${book.volumeInfo?.title?.toString()?: "Not Available"}" ,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontStyle = FontStyle.Italic
+                    maxLines = 2,
+
                 )
 
                 Text(
-                    text = "Date : ${book.volumeInfo.publishedDate}",
+                    text = "Authors : ${book.volumeInfo?.authors?.toString()?: "Not Available"}",
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium,
                     fontStyle = FontStyle.Italic,
@@ -189,7 +196,15 @@ fun BookRow(book: Item, navController: NavController) {
                 )
 
                 Text(
-                    text = "Category : ${book.volumeInfo.categories}",
+                    text = "Date : ${book.volumeInfo?.publishedDate?.toString() ?: "Not Available"}",
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontStyle = FontStyle.Italic,
+                    maxLines = 1
+                )
+
+                Text(
+                    text = "Category : ${book.volumeInfo?.categories?.toString()?: "Not Available"}",
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium,
                     fontStyle = FontStyle.Italic,

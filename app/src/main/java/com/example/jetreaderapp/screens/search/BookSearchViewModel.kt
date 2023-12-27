@@ -1,5 +1,6 @@
 package com.example.jetreaderapp.screens.search
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +26,7 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
 
 
     init {
-        loadBooks("android")
+        loadBooks("ppo")
     }
 
     fun loadBooks(string: String){
@@ -33,7 +34,20 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
     }
 
      fun searchBooks(query: String) {
+
+
+
+
         viewModelScope.launch {
+            Log.d("PPOOXX", "searchBooks: before \n")
+            printId(listOfBooks)
+
+
+
+
+
+
+
             isLoading = true
             if(query.isEmpty()){
                 return@launch
@@ -41,31 +55,52 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
 
             try {
 
-                when (val response = repository.getBooks(query)){
-                    is Resource.Success -> {
+
+                val response = repository.getBooksDummy(query)
+
+                    if(response.data != null){
                         listOfBooks = response.data!!
-                        if(listOfBooks.isNotEmpty()) isLoading = false
-                    }
-                    is Resource.Error -> {
-                        isLoading = false
-                        Log.e("Network", "searchBooks: Failed getting books ${response.message} ", )
 
+                    }else{
+//                        TODO : show Toast that network error. try again
+                        throw response.e!!
                     }
-                    else ->{
-                        isLoading = false
 
-                    }
-                }
+
+
+                isLoading = false
+
+
+
 
 
             }catch (ex:Exception){
                 isLoading = false
-                Log.e("Network", "searchBooks: Failed getting books ${ex.message.toString()}} ", )
+                //                        TODO : show Toast that network error. try again
+//                Log.e("Network", "searchBooks: Failed getting books ${ex.message.toString()}} ", )
 
 
             }
 
+//            Log.d("PPOOXX", "searchBooks: ${listOfBooks.size}")
+            Log.d("PPOOXX", "searchBooks: after \n")
+            printId(listOfBooks)
+
         }
 
+
+
+
+
     }
+
+    fun printId(listOfBooks : List<Item>){
+        for(item in listOfBooks){
+            Log.d("PPOOXX", "printId: ${item.id} \n")
+        }
+    }
+
+
+
+
 }

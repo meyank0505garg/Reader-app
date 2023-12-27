@@ -215,23 +215,14 @@ fun ReaderAppBar(
 //    CenterAlignedTopAppBar(title = { /*TODO*/ })
     CenterAlignedTopAppBar(
         title = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-//                          if(showProfile){
-//                              Icon(
-//                                  imageVector = Icons.Default.Favorite,
-//                                  contentDescription = "Logo Icon",
-//                                  modifier = Modifier
-//                                      .clip(RoundedCornerShape(12.dp))
-//                                      .scale(0.7f)
-//                              )
-//                          }
+//
 
                 Text(text = title,
                     color = Color.Red.copy(0.9f),
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 )
 
-            }
+
         },
         actions = {
             if(showProfile){

@@ -62,7 +62,7 @@ fun ReaderNavigation() {
             )
         ){backStackEntry->
             backStackEntry.arguments?.getString("bookItemId").let {
-                Log.d("BookId", "ReaderNavigation: $it")
+
                 BookUpdateScreen(navController,it.toString())
             }
 

@@ -3,6 +3,7 @@ package com.example.jetreaderapp.repository
 import android.util.Log
 import com.example.jetreaderapp.data.DataOrException
 import com.example.jetreaderapp.model.MBook
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
@@ -24,10 +25,17 @@ suspend fun getAllbooksFromDatabase() : DataOrException<List<MBook>,Boolean,Exce
 
 
         }
-
+        val currentUser = FirebaseAuth.getInstance().currentUser
         if(!dataOrException.data.isNullOrEmpty()){
-            dataOrException.loading = false
+            dataOrException.data = dataOrException.data!!.filter {mBook ->
+            mBook.userId == currentUser?.uid.toString()
+
+            }
         }
+
+//        if(!dataOrException.data.isNullOrEmpty()){
+//            dataOrException.loading = false
+//        }
 //        Log.d("Ert", "getAllbooksFromDatabase: exception not occur ${dataOrException.data.toString()} ")
 
     }catch (ex:FirebaseFirestoreException){
@@ -36,6 +44,7 @@ suspend fun getAllbooksFromDatabase() : DataOrException<List<MBook>,Boolean,Exce
 
     }
 //    Log.d("return", "getAllbooksFromDatabase: exception not occur ${dataOrException.data.toString()} ")
+    dataOrException.loading = false
     return dataOrException
 
 }

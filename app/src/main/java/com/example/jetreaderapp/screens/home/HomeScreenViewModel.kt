@@ -17,7 +17,7 @@ import javax.inject.Inject
 class HomeScreenViewModel @Inject constructor(
     private val repository: FireRepository) : ViewModel() {
         val data : MutableState<DataOrException<List<MBook>,Boolean,Exception>> = mutableStateOf(
-            DataOrException(listOf(),true,Exception(""))
+            DataOrException(listOf(),true,Exception("XX"))
         )
 
     init {
@@ -27,8 +27,13 @@ class HomeScreenViewModel @Inject constructor(
     private fun getAllBooksFromDataBase() {
 
          viewModelScope.launch {
+             Log.d("Flow-PPOX", "getAllBooksFromDataBase: first ${data.value.data} and \n \n ${data.value.e?.message} and \n" +
+                     "\n \n ${data.value.loading} ")
              data.value.loading = true
+
              data.value =  repository.getAllbooksFromDatabase()
+             Log.d("Flow-PPOX", "getAllBooksFromDataBase: second ${data.value.data} and \n" +
+                     "\n \n ${data.value.loading} ")
 
 //             Log.d("InsideHomeViewModel", "getAllBooksFromDataBase: ${data.value.data.toString()} ")
 
@@ -36,7 +41,12 @@ class HomeScreenViewModel @Inject constructor(
              if(!data.value.data.isNullOrEmpty()){
                  data.value.loading = false
              }
+//             data.value.loading = false
+             Log.d("Flow-PPOX" +
+                     "", "getAllBooksFromDataBase: third ${data.value.data} and \n" +
+                     "\n \n ${data.value.loading} ")
          }
+
 //         Log.d("Get", "getAllBooksFromDataBase: ViewModel present :  ${data.value.data?.toList().toString()}")
     }
 

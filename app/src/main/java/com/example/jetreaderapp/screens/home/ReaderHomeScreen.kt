@@ -85,25 +85,19 @@ fun HomeScreen(navController: NavController = rememberNavController(),
 
 fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel) {
 
-//    val listofBooks = listOf<MBook>(
-//        MBook(),
-//        MBook(),
-//        MBook(),
-//        MBook(),
-//        MBook(),
-//        MBook(),
-//    )
+
 
     var listOfBooks = emptyList<MBook>()
     val currentUser = FirebaseAuth.getInstance().currentUser
 
-    if(!viewModel.data.value.data.isNullOrEmpty()){
-        listOfBooks = viewModel.data.value.data!!.toList().filter {mbook->
-            mbook.userId == currentUser?.uid.toString()
-
-        }
+//    if(!viewModel.data.value.data.isNullOrEmpty()){
+//        listOfBooks = viewModel.data.value.data!!.toList().filter {mbook->
+//            mbook.userId == currentUser?.uid.toString()
+//
+//        }
+        listOfBooks = viewModel.data.value.data!!
         Log.d("Books", "HomeContent: ${listOfBooks.size}")
-    }
+//    }
 
 
     val email = FirebaseAuth.getInstance().currentUser?.email
@@ -151,7 +145,7 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel) {
         }
 
         ReadingRightNowArea(
-            books = listOf(),
+            books = listOfBooks,
             navController = navController
         )
         
@@ -176,16 +170,40 @@ fun BookListArea(listofBooks: List<MBook>, navController: NavController) {
 
     HorizontalScrollableComponent(addedBookslist){
 //        Todo : on Card cliked go to details
-//        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
+        Log.d("OnCardPress", "BookListArea: $it")
+        Log.d("Follow-p", "ReaderNavigation: first number")
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
 //        Log.d("BookId", "BookListArea: $it")
 
     }
 
 }
 
+
+
+
+@Composable
+fun ReadingRightNowArea(books : List<MBook>, navController: NavController){
+//    ListCard()
+
+    val readingNowBooks = books.filter {mBook ->
+    mBook.startedReading != null && mBook.finishedReading != null
+
+    }
+    HorizontalScrollableComponent(listofBooks = readingNowBooks){
+
+        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
+
+
+    }
+
+
+
+}
+
 @Composable
 fun HorizontalScrollableComponent(listofBooks: List<MBook>,
-                                   viewModel: HomeScreenViewModel = hiltViewModel(),
+                                  viewModel: HomeScreenViewModel = hiltViewModel(),
                                   onCardPress : (String) -> Unit = {}) {
 
     val scrollState = rememberScrollState()
@@ -194,7 +212,7 @@ fun HorizontalScrollableComponent(listofBooks: List<MBook>,
             .fillMaxWidth()
             .heightIn(280.dp)
             .horizontalScroll(scrollState),
-        ) {
+    ) {
 
         if(viewModel.data.value.loading == true){
             LinearProgressIndicator()
@@ -207,6 +225,7 @@ fun HorizontalScrollableComponent(listofBooks: List<MBook>,
             }else{
                 for(book in listofBooks){
                     ListCard(book){
+                        Log.d("OnCardPress", "HorizontalScrollableComponent: ${book.googleBookId.toString()}")
                         onCardPress.invoke(book.googleBookId.toString() )
                     }
                 }
@@ -220,26 +239,8 @@ fun HorizontalScrollableComponent(listofBooks: List<MBook>,
 
 }
 
-
 @Composable
-fun ReadingRightNowArea(books : List<MBook>, navController: NavController){
-//    ListCard()
-
-    val readingNowBooks = books.filter {mBook ->
-    mBook.startedReading != null && mBook.finishedReading != null
-
-    }
-    HorizontalScrollableComponent(listofBooks = readingNowBooks){
-        navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
-
-
-    }
-
-
-
-}
-
-@Composable
+@Preview
 fun ListCard(book : MBook = MBook("1234","Title","Author","Notes"),
              onPressDetails : (String) -> Unit = {}) {
 
@@ -307,23 +308,30 @@ fun ListCard(book : MBook = MBook("1234","Title","Author","Notes"),
             )
             Text(text = book.authors.toString() ,
                 modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.bodyLarge)
-
-            val isStartedReading = remember{
-                mutableStateOf(false)
-            }
-
-            Row(horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                isStartedReading.value = book.startedReading !=null
-                RoundedButton(label = if(isStartedReading.value) "Reading" else "Not Started" , radius = 70)
-
-            }
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
 
 
+                )
+
+
+
+
+
+
+
+        }
+        val isStartedReading = remember{
+            mutableStateOf(false)
+        }
+        Row(horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom,
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            isStartedReading.value = book.startedReading !=null
+            RoundedButton(label = if(isStartedReading.value) "Reading" else "Not Started" , radius = 70)
 
         }
 

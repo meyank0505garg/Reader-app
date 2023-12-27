@@ -44,7 +44,6 @@ import com.example.jetreaderapp.model.Item
 import com.example.jetreaderapp.model.MBook
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,10 +79,13 @@ fun BookDetailsScreen(navController: NavController,
                     value  = viewModel.getBookInfo(bookId)
                 }.value
 
+
                 if(book_info.data == null){
                     LinearProgressIndicator()
                 }else{
-                    ShowBookDetails(bookInfo = book_info, navController = navController)
+                    ShowBookDetails(bookInfo = book_info,
+                        navController = navController,
+                        bookId = bookId)
                     
 
                 }
@@ -99,9 +101,10 @@ fun BookDetailsScreen(navController: NavController,
 }
 
 @Composable
-fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
-    val bookData = bookInfo.data?.volumeInfo
-    val googleBookId = bookInfo.data?.id
+fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController,
+                    bookId: String ="") {
+    val bookData = bookInfo.data!!.volumeInfo
+    val googleBookId = bookInfo.data.id
     
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()) {
@@ -123,9 +126,11 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         Text(text = bookData?.title.toString(),
             overflow = TextOverflow.Ellipsis)
         
-        Text(text = "Authors : ${bookData?.authors}")
-        Text(text = "Page Count : ${bookData?.pageCount.toString()}")
-        Text(text = "Published : ${bookData?.publishedDate.toString()}")
+        Text(text = "Authors : ${bookData.authors}")
+        Text(text = "Page Count : ${bookData.pageCount.toString()}")
+        Text(text = "Published : ${bookData.publishedDate.toString()}")
+//        Text(text = "Categories : ${bookData.categories}")
+//        Text(text = "book id : ${bookId}")
         
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -157,8 +162,8 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
                         description = bookData.description?.toString(),
                         categories = bookData.categories?.toString(),
                         notes = "",
-                        photoUrl = bookData.imageLinks.thumbnail.toString(),
-                        publishedDate = bookData.publishedDate.toString(),
+                        photoUrl = bookData.imageLinks?.thumbnail.toString(),
+                        publishedDate = bookData.publishedDate?.toString(),
                         pageCount = bookData.pageCount?.toString(),
                         rating = 0.0,
                         googleBookId = googleBookId,
@@ -167,10 +172,11 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
                     )
                     SaveToFireBase(book,navController)
 
+
                 }catch (ex:Exception){
-                    Log.d("book", "ShowBookDetails: Exception occur ${ex.message} ")
+                    Log.d("book", "ShowBookDetails: Exception occur ${ex.message} and ${bookData.toString()} ")
                                     navController.popBackStack()
-                    
+
                 }
 
 
