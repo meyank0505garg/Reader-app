@@ -81,6 +81,7 @@ fun BookDetailsScreen(navController: NavController,
 
 
                 if(book_info.data == null){
+                    Log.d("PPLK", "BookDetailsScreen: ${book_info.data} and ${book_info.message}")
                     LinearProgressIndicator()
                 }else{
                     ShowBookDetails(bookInfo = book_info,
@@ -113,7 +114,19 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController,
             shape = CircleShape,
         ) {
 
-            Image(painter = rememberAsyncImagePainter(model = bookData!!.imageLinks.thumbnail), contentDescription = "Book Image",
+            val imgUrl =  if(bookData?.imageLinks?.smallThumbnail.isNullOrEmpty()){
+//                temporary image
+                "http://books.google.com/books/content?id=Q7vLPAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api"
+
+
+
+            }else{
+                bookData.imageLinks.smallThumbnail.toString()
+
+            }
+
+            Image(painter = rememberAsyncImagePainter(model = imgUrl),
+                contentDescription = "Book Image",
                 modifier = Modifier
                     .size(90.dp)
                     .padding(1.dp),
@@ -123,21 +136,24 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController,
 
         }
 
-        Text(text = bookData?.title.toString(),
+        Text(text = "${bookData?.title?.toString() ?:"Not Available"}",
             overflow = TextOverflow.Ellipsis)
         
-        Text(text = "Authors : ${bookData.authors}")
-        Text(text = "Page Count : ${bookData.pageCount.toString()}")
-        Text(text = "Published : ${bookData.publishedDate.toString()}")
+        Text(text = "Authors : ${bookData?.authors?.toString() ?: "Not Available"}")
+        Text(text = "Page Count : ${bookData?.pageCount?.toString() ?: "Not Available"}")
+        Text(text = "Published : ${bookData?.publishedDate?.toString() ?: "Not Available"}")
 //        Text(text = "Categories : ${bookData.categories}")
 //        Text(text = "book id : ${bookId}")
         
         Spacer(modifier = Modifier.height(10.dp))
 
-        val cleanDescription = HtmlCompat.fromHtml(bookData!!.description,HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+        val descriptionRawData = bookData!!.description?.toString() ?: "Not Available"
+
+        val cleanDescription = HtmlCompat.fromHtml(descriptionRawData,HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
 
         Surface(modifier = Modifier
             .height(300.dp)
+            .fillMaxWidth()
             .padding(4.dp),
             shape = RectangleShape,
             border = BorderStroke(1.dp, Color.DarkGray)

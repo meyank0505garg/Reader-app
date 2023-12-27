@@ -7,8 +7,8 @@ sealed class Resource<T>(
 
 
 ){
-    class Success<T>(data: T):Resource<T>(data)
-    class Error<T>(message : String?,data: T? = null) : Resource<T>(data,message)
-    class Loading<T>(data: T? = null):Resource<T>(data)
+    class Success<T>(data: T,message: String? = "Success"):Resource<T>(data)
+    class Error<T>(message : String? = "Error",data: T? = null) : Resource<T>(data,message)
+    class Loading<T>(data: T? = null,message: String? = "checking"):Resource<T>(data)
 
 }
