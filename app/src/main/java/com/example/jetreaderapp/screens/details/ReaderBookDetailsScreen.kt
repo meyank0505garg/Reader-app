@@ -76,12 +76,15 @@ fun BookDetailsScreen(navController: NavController,
                 horizontalAlignment = Alignment.CenterHorizontally) {
 
                 val book_info = produceState<Resource<Item>>(initialValue = Resource.Loading()){
+
+
                     value  = viewModel.getBookInfo(bookId)
+
                 }.value
 
-
+//
                 if(book_info.data == null){
-                    Log.d("PPLK", "BookDetailsScreen: ${book_info.data} and ${book_info.message}")
+//                    Log.d("PPLK", "BookDetailsScreen: ${book_info.data} and ${book_info.message}")
                     LinearProgressIndicator()
                 }else{
                     ShowBookDetails(bookInfo = book_info,

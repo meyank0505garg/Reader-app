@@ -26,7 +26,7 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
 
 
     init {
-        loadBooks("ppo")
+        loadBooks("android")
     }
 
     fun loadBooks(string: String){
@@ -39,8 +39,8 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
 
 
         viewModelScope.launch {
-            Log.d("PPOOXX", "searchBooks: before \n")
-            printId(listOfBooks)
+//            Log.d("CheckingValue", "searchBooks: before query :-> $query \n")
+//            printId(listOfBooks)
 
 
 
@@ -78,13 +78,14 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
                 isLoading = false
                 //                        TODO : show Toast that network error. try again
 //                Log.e("Network", "searchBooks: Failed getting books ${ex.message.toString()}} ", )
+                Log.d("CheckingValue", "searchBooks: exception-> ${ex.message}")
 
 
             }
 
 //            Log.d("PPOOXX", "searchBooks: ${listOfBooks.size}")
-            Log.d("PPOOXX", "searchBooks: after \n")
-            printId(listOfBooks)
+//            Log.d("CheckingValue", "searchBooks: after query :-> $query \n")
+//            printId(listOfBooks)
 
         }
 
@@ -96,7 +97,7 @@ class BookSearchViewModel @Inject constructor(private val repository: BookReposi
 
     fun printId(listOfBooks : List<Item>){
         for(item in listOfBooks){
-            Log.d("PPOOXX", "printId: ${item.id} \n")
+            Log.d("CheckingValue", "printId: ${item.id} \n")
         }
     }
 

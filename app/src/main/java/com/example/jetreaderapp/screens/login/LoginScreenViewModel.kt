@@ -91,9 +91,13 @@ class LoginScreenViewModel @Inject constructor() : ViewModel() {
                 try {
 
                     auth.signInWithEmailAndPassword(email,password)
+
                         .addOnCompleteListener {task->
                             if(task.isSuccessful){
                                 home()
+
+                            }else{
+                                Log.d("TAG", "signInWithEmailAndPassword: task unsuccessful")
 
                             }
                             _loading.value = false
@@ -102,6 +106,7 @@ class LoginScreenViewModel @Inject constructor() : ViewModel() {
 
                         }
                         .addOnFailureListener {
+                            Log.d("TAG", "signInWithEmailAndPassword: on failure ${it.message}")
 
                             _loading.value = false
                             _is_Error.value = true
@@ -113,6 +118,7 @@ class LoginScreenViewModel @Inject constructor() : ViewModel() {
                 }catch (ex:Exception){
                     _loading.value = false
                     _is_Error.value = true
+                    Log.d("TAG", "signInWithEmailAndPassword: exception ${ex.message}")
 
                 }
 

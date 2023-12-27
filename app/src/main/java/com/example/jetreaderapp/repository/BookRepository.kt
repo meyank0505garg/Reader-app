@@ -43,10 +43,10 @@ class BookRepository @Inject constructor(private val api : BooksApi) {
 
         }catch (ex:Exception){
             listOfBooksOrException.e = ex
-            listOfBooksOrException.data = null
+            listOfBooksOrException.data = emptyList()
 
         }
-        Log.d("PPOOXX", "getBooksDummy: $searchQuery  and ${listOfBooksOrException.data?.size}")
+        Log.d("PPOOXX", "getBooksDummy: $searchQuery  and ${listOfBooksOrException.data?.size} \n ${listOfBooksOrException.e?.message}")
 
 //        listOfBooksOrException.loading = false
         return  listOfBooksOrException

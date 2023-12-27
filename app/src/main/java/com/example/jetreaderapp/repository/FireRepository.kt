@@ -41,6 +41,7 @@ suspend fun getAllbooksFromDatabase() : DataOrException<List<MBook>,Boolean,Exce
     }catch (ex:FirebaseFirestoreException){
 //        Log.d("Ert", "getAllbooksFromDatabase: ${ex.message.toString()} ")
         dataOrException.e = ex
+        dataOrException.data = emptyList()
 
     }
 //    Log.d("return", "getAllbooksFromDatabase: exception not occur ${dataOrException.data.toString()} ")

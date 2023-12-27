@@ -72,82 +72,77 @@ fun BookUpdateScreen(navController: NavHostController,
                      viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
 
                      ) {
-// //   Text(text = bookItemId)
-//    Scaffold(topBar = {
-//        ReaderAppBar(navController = navController,
-//            title = "Update Book",
-//            icon = Icons.Default.ArrowBack,
-//            showProfile = false,
-//            )
-//
-//        }) {
-//
-//        val bookInfo = produceState<DataOrException<List<MBook>,
-//                Boolean,
-//                Exception>>(initialValue = DataOrException(data = emptyList(),true,Exception("PPP"))){
-//            Log.d("Flow-PPOX", "BookUpdateScreen: firstx call ")
-//
-//            value = viewModel.data.value
-//            Log.d("Flow-PPOX", "BookUpdateScreen: secondx call ")
-//        }.value
-//
-//        Log.d("Flow-PPOX", "BookUpdateScreen:\n " +
-//                "data : ${bookInfo.data} \n" +
-//                "loading : ${bookInfo.loading} \n" +
-//                "ex: ${bookInfo.e?.message}"
-//        )
-//
-//
-//
-//
-//
-//        Surface(modifier = Modifier
-//            .padding(it)
-//            .fillMaxSize()) {
-//            Column(modifier = Modifier.padding(top = 3.dp),
-//                verticalArrangement = Arrangement.Top,
-//                horizontalAlignment = Alignment.CenterHorizontally) {
-//
+ //   Text(text = bookItemId)
+    Scaffold(topBar = {
+        ReaderAppBar(navController = navController,
+            title = "Update Book",
+            icon = Icons.Default.ArrowBack,
+            showProfile = false,
+            ){
+            navController.navigate(ReaderScreens.ReaderHomeScreen.name)
+        }
+
+        }) {
+
+
+
+        val bookInfo = viewModel.data.value
+
+
+
+
+
+
+
+        Surface(modifier = Modifier
+            .padding(it)
+            .fillMaxSize()) {
+            Column(modifier = Modifier.padding(top = 3.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally) {
+
 //                Log.d("Info", "BookUpdateScreen: ${bookItemId} and ${bookInfo}")
-//
-//                if(bookInfo.loading == true){
-//                     LinearProgressIndicator()
+
+                if(bookInfo.loading == true){
+                     LinearProgressIndicator()
 //                    bookInfo.loading = false
-//                }else{
-////                    Text(text = viewModel.data.value.data?.get(0)?.title.toString())
-//                    Surface(modifier = Modifier
-//                        .padding(2.dp)
-//                        .fillMaxSize(),
-//                        shape= CircleShape,
-//                        shadowElevation = 4.dp
-//                    ) {
-//
-////                        ShowBookUpdate(bookInfo = viewModel.data.value,bookItemId)
-//
-//
-//                    }
-//
-////                    ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
-////                        mBook.googleBookId == bookItemId
-////                    }!!, navController)
-//
-//
-//                }
-//
-//
-//
-//            }
-//
-//        }
-//
-//    }
+                }else{
+//                    Text(text = viewModel.data.value.data?.get(0)?.title.toString())
+                    Surface(modifier = Modifier
+                        .padding(2.dp)
+                        .fillMaxWidth(),
+                        shape= CircleShape,
+                        shadowElevation = 4.dp
+                    ) {
+
+                        ShowBookUpdate(bookInfo = bookInfo,bookItemId)
 
 
+                    }
+
+                    ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
+                        mBook.googleBookId == bookItemId
+                    }!!, navController)
+
+
+                }
+
+
+
+            }
+
+        }
+
+    }
 
 }
+
+
+
 @Composable
 fun ShowSimpleForm(book: MBook,
                    navController: NavHostController) {
+    Log.d("CheckingValue", "ShowSimpleForm: ${book.googleBookId}  and ")
     val context = LocalContext.current
 
     val notesText = remember {
@@ -348,6 +343,7 @@ fun SimpleForm(
     defaultValue: String = "Great Book!",
     onSearch: (String) -> Unit
 ){
+    Log.d("CheckingValue", "SimpleForm:  ")
     Column {
         val textFieldValue = rememberSaveable { mutableStateOf(defaultValue) }
         val keyboardController = LocalSoftwareKeyboardController.current

@@ -53,13 +53,16 @@ import com.example.jetreaderapp.components.RoundedButton
 import com.example.jetreaderapp.components.TitleSection
 import com.example.jetreaderapp.model.MBook
 import com.example.jetreaderapp.navigation.ReaderScreens
+import com.example.jetreaderapp.screens.search.BookSearchViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun HomeScreen(navController: NavController = rememberNavController(),
-               viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>()) {
+               viewModel: HomeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
+
+               ) {
     Scaffold(topBar = { ReaderAppBar(navController = navController, title = "Reader App")},
         floatingActionButton = {
             FABContent(){
@@ -88,7 +91,7 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel) {
 
 
     var listOfBooks = emptyList<MBook>()
-    val currentUser = FirebaseAuth.getInstance().currentUser
+//    val currentUser = FirebaseAuth.getInstance().currentUser
 
 //    if(!viewModel.data.value.data.isNullOrEmpty()){
 //        listOfBooks = viewModel.data.value.data!!.toList().filter {mbook->
@@ -96,7 +99,6 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel) {
 //
 //        }
         listOfBooks = viewModel.data.value.data!!
-        Log.d("Books", "HomeContent: ${listOfBooks.size}")
 //    }
 
 
@@ -170,8 +172,6 @@ fun BookListArea(listofBooks: List<MBook>, navController: NavController) {
 
     HorizontalScrollableComponent(addedBookslist){
 //        Todo : on Card cliked go to details
-        Log.d("OnCardPress", "BookListArea: $it")
-        Log.d("Follow-p", "ReaderNavigation: first number")
         navController.navigate(ReaderScreens.UpdateScreen.name + "/$it")
 //        Log.d("BookId", "BookListArea: $it")
 
@@ -187,7 +187,7 @@ fun ReadingRightNowArea(books : List<MBook>, navController: NavController){
 //    ListCard()
 
     val readingNowBooks = books.filter {mBook ->
-    mBook.startedReading != null && mBook.finishedReading != null
+    mBook.startedReading != null && mBook.finishedReading == null
 
     }
     HorizontalScrollableComponent(listofBooks = readingNowBooks){
@@ -225,7 +225,7 @@ fun HorizontalScrollableComponent(listofBooks: List<MBook>,
             }else{
                 for(book in listofBooks){
                     ListCard(book){
-                        Log.d("OnCardPress", "HorizontalScrollableComponent: ${book.googleBookId.toString()}")
+
                         onCardPress.invoke(book.googleBookId.toString() )
                     }
                 }
@@ -289,7 +289,7 @@ fun ListCard(book : MBook = MBook("1234","Title","Author","Notes"),
                         contentDescription = "Fav Icon",
                         modifier = Modifier.padding(bottom = 1.dp))
 
-                    BookRating(score = 3.5)
+                    BookRating(score = book.rating!!)
 
 
 
