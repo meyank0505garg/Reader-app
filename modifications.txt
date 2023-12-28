@@ -17,3 +17,7 @@ Remaining :
 2. if during Create Account, wrong details were entered, then show warning.
 3.  when ever some exception is thrown, show Toast Message regarding the error.
 4. bring data of user only, in app, whole data was brought ,then according to user, data was filtered. improve this.
+
+git add .
+git commit -m "updating readme file"
+git push
