@@ -33,7 +33,7 @@
  ## :camera: Screen Shots of App :
 
 <p align="center">
-    <img alt="Home screen" src="./screenshots/Screenshot.png" width="80%"/>
+    <img alt="Home screen" src="./screenshots/Screenshot.png" height = "100px"/>
 </p>
 
 <p align="center">
