@@ -1,15 +1,15 @@
 
 
 
-# :zap: Book Reader App
+# :zap: Weather App
 <!-- <p align="center">
 <a href="https://automated-solution-comparison-and-testing-framework.streamlit.app/" target="_blank">Visit Site</a>
 </p> -->
 
 
-1. Developed a Weather App using Android technologies such as Retrofit for API integration, Hilt for dependency injection, View- Model for managing UI-related data, RoomDatabase for local data storage, and Jetpack Compose for building the user interface.
-2. The app allows users to fetch real-time weather data and store it locally for offline access. Implemented features include display- ing current weather, hourly and daily forecasts, and location-based weather updates.
-3. Technologies: Retrofit, Hilt, ViewModel, RoomDatabase, Jetpack Compose-Kotlin
+1. Developed a mobile application using Kotlin-Jetpack Compose that enables users to log in and access books from the Google Books API.
+2. Implemented features including a home screen displaying last read and favorited books, as well as a search screen for discovering and reading book descriptions, including categories, publish dates, and authors. Leveraged Firebase for user authentication,which to allow users to log in, to store and retrieve data like Records the books a user is currently reading , Manages a list of favorited books. Hilt for dependency injection, Retrofit for API communication, Coil for image loading, and Jetpack Compose for building the user interface
+3. Technologies used - Firebase, Hilt, Retrofit, Coil, Jetpack Compose (Kotlin)
 
 ## Improvements :
 1. If someone put wrong login details, app was crashing :  Fixed
