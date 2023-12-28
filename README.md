@@ -33,23 +33,23 @@
  ## :camera: Screen Shots of App :
 
 <p align="center">
-    <img alt="Home screen" src="./screenshots/Screenshot.png" height = "800px"/>
+    <img alt="Home screen" src="./screenshots/Screenshot.png" height = "700px"/>
 </p>
 
 <p align="center">
-    <img alt="Home screen" src="./screenshots/Screenshot 1.png" width="80%"/>
+    <img alt="Home screen" src="./screenshots/Screenshot 1.png" height = "700px"/>
 </p>
 
 <p align="center">
-    <img alt="Home screen" src="./screenshots/Screenshot 2.png" width="80%"/>
+    <img alt="Home screen" src="./screenshots/Screenshot 2.png" height = "700px"/>
 </p>
 
 <p align="center">
-    <img alt="Home screen" src="./screenshots/Screenshot 3.png" width="80%"/>
+    <img alt="Home screen" src="./screenshots/Screenshot 3.png" height = "700px"/>
 </p>
 
 <p align="center">
-    <img alt="Home screen" src="./screenshots/Screenshot 4.png" width="80%"/>
+    <img alt="Home screen" src="./screenshots/Screenshot 4.png" height = "700px"/>
 </p>
 
 <!-- ## :camera: Screenshots -->
